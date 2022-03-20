@@ -6,7 +6,9 @@ from bandit.arm.normal import NormalArm, NormalNoiseArm
 from bandit.arm.bernoulli import BernoulliArm
 from bandit.arm.bernoulli_periodic import BernoulliPeriodicArm
 
-OBS_VAR = 50.0
+
+
+OBS_VAR = 3.0
 MEANS = [0.0, 0.1, 0.2, 0.3, 0.4]
 VARS = [3.0, 2.4, 1.8, 1.2, 0.6]
 P_SUCCESSES = [0.4, 0.45, 0.5, 0.55, 0.6]
@@ -37,7 +39,8 @@ def main(args):
     if args.bandit == "normal":
         bandit = get_normal_bandit(MEANS, VARS)
     elif args.bandit == "normal_noise":
-        bandit = get_normal_noise_bandit(MEANS, VARS, OBS_VAR)
+        obs_noise = args.obs_noise if args.obs_noise > 0 else OBS_VAR
+        bandit = get_normal_noise_bandit(MEANS, VARS, obs_noise)
     elif args.bandit == "periodic":
         bandit = get_periodic_bandit(0.3, 0.7, 100, 5)
 
