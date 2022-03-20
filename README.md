@@ -39,7 +39,7 @@ Experiment numbers are as follows:
 
 Types of bandits are:
 - *normal*: bandit arms have Gaussian distributed rewards
-- *normal_noise*: bandit arms have Gaussian distributed rewards and rewards are obtained with noise
+- *normal_noise*: bandit arms have Gaussian distributed rewards and rewards are obtained with noise (<img src="https://render.githubusercontent.com/render/math?math=$\sigma^2_{obs} = 3.0$"> as Default)
 - *bernoulli* (default): bandit arms have bernoulli distributed rewards
 - *bernoulli periodic*: success probability of the bernoulli distribution oscillates as a sinusoid.
 
@@ -51,10 +51,20 @@ python main.py --plot .\data\"experiment_path".p
 </code>
 
 
-**Default Parameters - in cli.py**
+**Default Parameters - in cli.py, main.py**
+5 Arms - 
+Reward Distributions - 
+
+*Normal* - <img src="https://render.githubusercontent.com/render/math?math=$\mu_i = [0.0, 0.1, 0.2, 0.3, 0.4] \quad \sigma^2_i = [3.0, 2.4, 1.8, 1.2, 0.6]$">
+
+*Bernoulli* - <img src="https://render.githubusercontent.com/render/math?math=$P_i = [0.4, 0.45, 0.5, 0.55, 0.6] $">
+
+<img src="https://render.githubusercontent.com/render/math?math=$\sigma^2_{obs} = 3.0$"> 
 
 <code>
   --exp 7 --bandit normal_noise --n_runs 200 --n_steps 2000 --regrets True --n_regret_eval 10 --delay 0
+  
+  --obs_noise -1.0 --kalman_obs_noise -1.0
 </code>
 
 *For more Information*
