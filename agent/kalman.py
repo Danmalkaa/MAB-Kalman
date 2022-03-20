@@ -4,13 +4,14 @@ from .base import Agent
 
 class Kalman(Agent):
 
-    def __init__(self, n_actions):
+    def __init__(self, n_actions, est_observation_noise):
         super(Kalman, self).__init__("Kalman")
         self.n_actions = n_actions
         self.count_actions = None
         self.sum_reward = None
         self.chosen_action = None
-        self.observation_noise = 50.0
+        self.default_observation_noise = 3.0
+        self.observation_noise = est_observation_noise if est_observation_noise > 0 else self.default_observation_noise
         self.init_flag = False
         self.init()
 
