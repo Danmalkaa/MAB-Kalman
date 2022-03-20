@@ -31,7 +31,7 @@ def plot_regrets(Ts_arr, final_regrets, labels):
     plt.ylabel(r"$Regret(T)$")
 
 
-def plot(experiment):
+def plot(experiment, save_dir_path=None):
     n_steps = experiment.n_steps
     n_actions = experiment.bandit.n_actions
     labels = experiment.labels
@@ -43,15 +43,17 @@ def plot(experiment):
         Ts_arr = [Ts for _ in range(len(labels))]
         plot_regrets(Ts_arr, final_regrets, labels)
 
-    plt.figure()
+    fig = plt.figure()
     for cum_rewards_mean_item, label in zip(cum_rewards_mean, labels):
         plt.plot(np.arange(n_steps), cum_rewards_mean_item, label=label)
     plt.legend()
     plt.xlabel(r"Number of time steps $t$")
     plt.ylabel(r"$\overline{Reward}(t)$")
+    if save_dir_path:
+        fig.savefig(os.path.join(save_dir_path,'Reward(t).png'))
 
     for actions_item, label in zip(actions, labels):
-        plt.figure()
+        fig = plt.figure()
         bottom_sum = np.zeros(n_steps)
         for action in range(n_actions):
             plt.title(label)
@@ -61,5 +63,7 @@ def plot(experiment):
         plt.legend()
         plt.xlabel("Number of time steps")
         plt.ylabel("Action chosen for each time step")
+        if save_dir_path:
+            fig.savefig(os.path.join(save_dir_path, f'{label}.png'))
 
     plt.show()
