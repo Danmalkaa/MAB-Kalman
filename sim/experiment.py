@@ -1,6 +1,10 @@
 import pickle
 from datetime import datetime
 import numpy as np
+import os.path as osp
+import pathlib
+
+
 
 
 class Experiment(object):
@@ -82,7 +86,10 @@ class Experiment(object):
         now = datetime.now()
         current_time = now.strftime("%y%m%d_%H%M%S")
         filename = "{}_{}_{}_{}_steps_{}_runs".format(current_time, self.type_bandit, self.name, self.n_steps, self.n_runs)
-        filepath = "data/" + filename + ".p"
+        dirpath = osp.join("data/", filename)
+        pathlib.Path(dirpath).mkdir(parents=True, exist_ok=True)
+        filepath = osp.join(dirpath, filename+".p")
 
         with open(filepath, 'wb') as handle:
             pickle.dump(self, handle)
+        self.save_dir_path = dirpath
