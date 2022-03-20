@@ -12,6 +12,8 @@ from datetime import datetime
 import pickle
 
 
+
+
 def get_envs(bandit, agents, args):
     envs = [Environment(bandit, agent, delay=args.delay) for agent in agents]
     return envs
@@ -94,7 +96,7 @@ def run_ucb2_on_iid(bandit, alphas, args):
     plot(experiment)
 
 def run_kalman_on_iid(bandit, args):
-    agents = [Kalman(bandit.n_actions)]
+    agents = [Kalman(bandit.n_actions, args.kalman_obs_noise)]
     envs = get_envs(bandit, agents, args)
     experiment = Experiment(envs, bandit, "kalman", args)
     plot(experiment)
@@ -107,8 +109,9 @@ def run_all_on_iid(bandit, args):
         SuccessiveElimination(bandit.n_actions, args.n_steps),
         UCB1(bandit.n_actions),
         UCB2(bandit.n_actions, 0.01),
-        Kalman(bandit.n_actions)
+        Kalman(bandit.n_actions, args.kalman_obs_noise)
     ]
     envs = get_envs(bandit, agents, args)
     experiment = Experiment(envs, bandit, "all", args)
-    plot(experiment)
+    save_dir_path = experiment.save_dir_path if hasattr(experiment, "save_dir_path") else None
+    plot(experiment, save_dir_path)
