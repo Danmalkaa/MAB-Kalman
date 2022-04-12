@@ -5,8 +5,10 @@ from agent.succ_elim import SuccessiveElimination
 from agent.ucb1 import UCB1
 from agent.ucb2 import UCB2
 from agent.kalman import Kalman
+from agent.thompson import Thompson
+
 from sim.experiment import Experiment
-from sim.utils import plot, plot_regrets
+from sim.utils import plot, plot_regrets, plot_arms
 import numpy as np
 from datetime import datetime
 import pickle
@@ -101,17 +103,37 @@ def run_kalman_on_iid(bandit, args):
     experiment = Experiment(envs, bandit, "kalman", args)
     plot(experiment)
 
+def run_thompson_on_iid(bandit, args):
+    agents = [Thompson(bandit.n_actions)]
+    envs = get_envs(bandit, agents, args)
+    experiment = Experiment(envs, bandit, "thompson", args)
+    # plot(experiment)
+    plot_arms(agents[0])
 
-def run_all_on_iid(bandit, args):
+
+# def run_all_on_iid(bandit, args):
+#     agents = [
+#         ExploreExploitOptimal(bandit.n_actions, args.n_steps),
+#         EpsilonGreedy(bandit.n_actions),
+#         SuccessiveElimination(bandit.n_actions, args.n_steps),
+#         UCB1(bandit.n_actions),
+#         UCB2(bandit.n_actions, 0.01),
+#         Kalman(bandit.n_actions, args.kalman_obs_noise),
+#         Thompson(bandit.n_actions)
+#     ]
+#     envs = get_envs(bandit, agents, args)
+#     experiment = Experiment(envs, bandit, "all", args)
+#     save_dir_path = experiment.save_dir_path if hasattr(experiment, "save_dir_path") else None
+#     plot(experiment, save_dir_path)
+
+def run_all_on_iid(bandit, args, true_parameters = None):
     agents = [
-        ExploreExploitOptimal(bandit.n_actions, args.n_steps),
-        EpsilonGreedy(bandit.n_actions),
-        SuccessiveElimination(bandit.n_actions, args.n_steps),
-        UCB1(bandit.n_actions),
-        UCB2(bandit.n_actions, 0.01),
-        Kalman(bandit.n_actions, args.kalman_obs_noise)
+        Kalman(bandit.n_actions, args.kalman_obs_noise),
+        Thompson(bandit.n_actions)
     ]
     envs = get_envs(bandit, agents, args)
     experiment = Experiment(envs, bandit, "all", args)
     save_dir_path = experiment.save_dir_path if hasattr(experiment, "save_dir_path") else None
     plot(experiment, save_dir_path)
+    for agent in agents:
+        plot_arms(agent,true_parameters)
