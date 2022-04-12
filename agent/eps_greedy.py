@@ -10,6 +10,8 @@ class EpsilonGreedy(Agent):
         self.n_actions = n_actions
         self.count_actions = None
         self.exp_reward = None
+        self.agent_type = 'epsilon'
+
         self.init()
 
     def init(self):

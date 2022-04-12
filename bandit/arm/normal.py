@@ -12,7 +12,7 @@ class NormalArm(Arm):
         return self.mean
 
     def get_reward(self, t):
-        return np.random.normal(self.mean, self.var)
+        return np.random.normal(self.mean,  np.sqrt(self.var))
 
 class NormalNoiseArm(Arm):
     def __init__(self, mean, var, obs_var):
@@ -25,4 +25,4 @@ class NormalNoiseArm(Arm):
         return self.mean
 
     def get_reward(self, t):
-        return np.random.normal(self.mean, self.var) + np.random.normal(0, self.obs_var)
+        return np.random.normal(self.mean,  np.sqrt(self.var)) + np.random.normal(0,  np.sqrt(self.obs_var))

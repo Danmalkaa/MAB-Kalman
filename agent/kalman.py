@@ -7,6 +7,7 @@ class Kalman(Agent):
     def __init__(self, n_actions, est_observation_noise):
         super(Kalman, self).__init__("Kalman")
         self.n_actions = n_actions
+        self.agent_type = 'Kalman'
         self.count_actions = None
         self.sum_reward = None
         self.chosen_action = None
@@ -34,7 +35,7 @@ class Kalman(Agent):
 
     def _step(self, t):
         # print([np.random.normal(mean, var) for mean,var in self.actions_dist_estimate.T])
-        sample_from_est_distribution = [np.random.normal(mean, var) for mean,var in self.actions_dist_estimate.T]
+        sample_from_est_distribution = [np.random.normal(mean, np.sqrt(var)) for mean,var in self.actions_dist_estimate.T]
         action = np.argmax(sample_from_est_distribution)
         self.chosen_action = action
         return action

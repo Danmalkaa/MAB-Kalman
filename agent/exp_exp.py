@@ -10,6 +10,7 @@ class ExploreExploit(Agent):
         self.count_actions = None
         self.sum_reward = None
         self.chosen_action = None
+        self.agent_type = 'Explore_Exploit'
         self.init()
 
     def init(self):

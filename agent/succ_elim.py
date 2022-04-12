@@ -11,6 +11,8 @@ class SuccessiveElimination(Agent):
         self.exp_reward = None
         self.active_actions = None
         self.round_actions = None
+        self.agent_type = 'Successive_Elimination'
+
         self.init()
 
     def init(self):

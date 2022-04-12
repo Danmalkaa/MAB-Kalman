@@ -10,6 +10,8 @@ class UCB1(Agent):
         self.count_actions = None
         self.exp_reward = None
         self.round_actions = None
+        self.agent_type = 'UCB1'
+
         self.init()
 
     def init(self):

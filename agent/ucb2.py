@@ -11,6 +11,8 @@ class UCB2(Agent):
         self.exp_reward = None
         self.count_r = None
         self.selected_action = None
+        self.agent_type = 'UCB2'
+
         self.init()
 
     def init(self):
