@@ -1,6 +1,6 @@
 from sim.iid import *
 from cli import parse_command
-from sim.utils import plot_from_data
+from sim.utils import plot_from_data, plot_arms
 from bandit.independent import IndependentBandit
 from bandit.arm.normal import NormalArm, NormalNoiseArm
 from bandit.arm.bernoulli import BernoulliArm
@@ -10,8 +10,10 @@ from bandit.arm.bernoulli_periodic import BernoulliPeriodicArm
 
 OBS_VAR = 3.0
 MEANS = [0.0, 0.1, 0.2, 0.3, 0.4]
+# MEANS = [5.5, 10.1, 15.2, 30.3, 40.4]
 VARS = [3.0, 2.4, 1.8, 1.2, 0.6]
 P_SUCCESSES = [0.4, 0.45, 0.5, 0.55, 0.6]
+parameters_tup = np.vstack((MEANS,VARS)).T
 
 
 def get_normal_bandit(means, vars):
@@ -74,13 +76,17 @@ def main(args):
         alphas = [0.001, 0.003, 0.01, 0.03, 0.1, 0.3]
         run_ucb2_on_iid(bandit, alphas, args)
 
-    elif args.exp == 6: # TODO: Add Kalman to all
+    elif args.exp == 6:
         print("All algorithms")
-        run_all_on_iid(bandit, args)
+        run_all_on_iid(bandit, args, parameters_tup)
 
     elif args.exp == 7:
         print("Kalman")
         run_kalman_on_iid(bandit, args)
+
+    elif args.exp == 8:
+        print("Thompson")
+        run_thompson_on_iid(bandit, args)
 
 
 if __name__ == '__main__':
