@@ -3,6 +3,7 @@ from datetime import datetime
 import numpy as np
 import os.path as osp
 import pathlib
+import os
 
 
 
@@ -83,9 +84,10 @@ class Experiment(object):
         return [self.results[e] for e in self.entries]
 
     def save(self):
+        pid = os.getpid()
         now = datetime.now()
         current_time = now.strftime("%y%m%d_%H%M%S")
-        filename = "{}_{}_{}_{}_steps_{}_runs".format(current_time, self.type_bandit, self.name, self.n_steps, self.n_runs)
+        filename = "{}_{}_{}_{}_{}_steps_{}_runs".format(current_time, pid,  self.type_bandit, self.name, self.n_steps, self.n_runs)
         dirpath = osp.join("data/", filename)
         pathlib.Path(dirpath).mkdir(parents=True, exist_ok=True)
         filepath = osp.join(dirpath, filename+".p")
