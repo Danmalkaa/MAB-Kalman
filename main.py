@@ -107,7 +107,7 @@ def multi_proc_exp_2(obs): # Estimated Variance for Kalman
     args = parse_command()
     np.random.seed((os.getpid() * int(time.time())) % 123456789)
     args.obs_noise = obs
-    args.kalman_unknown = "kalman_estimate"
+    args.kalman_unknown_str = "kalman_estimate"
     main(args)
     print(f"Done Unknown Obs. Var = {obs}")
 
@@ -117,7 +117,7 @@ def multi_proc_exp_3(delay, obs=0.1): # Known Variance for Kalman With Delay
     args.obs_noise = obs
     args.kalman_obs_noise = obs
     args.delay = delay
-    args.kalman_unknown = f"kalman_known_delay_{delay}" # add the name of exp to the file and folder
+    args.kalman_unknown_str = f"kalman_known_delay_{delay}" # add the name of exp to the file and folder
     main(args)
     print(f"Done Known Var Obs. Delay = {delay}")
 
