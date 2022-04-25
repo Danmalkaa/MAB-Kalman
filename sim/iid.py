@@ -126,14 +126,16 @@ def run_thompson_on_iid(bandit, args):
 #     save_dir_path = experiment.save_dir_path if hasattr(experiment, "save_dir_path") else None
 #     plot(experiment, save_dir_path)
 
-def run_all_on_iid(bandit, args, true_parameters = None):
+def run_all_on_iid(bandit, args, true_parameters = None): # Our Experiment with the 4 Agents
     agents = [
         Kalman(bandit.n_actions, args.kalman_obs_noise),
-        Thompson(bandit.n_actions)
+        Thompson(bandit.n_actions),
+        UCB1(bandit.n_actions),
+        SuccessiveElimination(bandit.n_actions, args.n_steps)
     ]
     envs = get_envs(bandit, agents, args)
-    experiment = Experiment(envs, bandit, "all", args)
+    experiment = Experiment(envs, bandit, f"all_{args.kalman_unknown}", args)
     save_dir_path = experiment.save_dir_path if hasattr(experiment, "save_dir_path") else None
     plot(experiment, save_dir_path)
     for agent in agents:
-        plot_arms(agent,true_parameters)
+        plot_arms(agent,true_parameters,save_dir_path, args)
