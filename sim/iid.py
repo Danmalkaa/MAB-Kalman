@@ -134,7 +134,7 @@ def run_all_on_iid(bandit, args, true_parameters = None): # Our Experiment with 
         SuccessiveElimination(bandit.n_actions, args.n_steps)
     ]
     envs = get_envs(bandit, agents, args)
-    experiment = Experiment(envs, bandit, f"all_{args.kalman_unknown}", args)
+    experiment = Experiment(envs, bandit, f"all_{args.kalman_unknown_str}", args)
     save_dir_path = experiment.save_dir_path if hasattr(experiment, "save_dir_path") else None
     plot(experiment, save_dir_path)
     for agent in agents:
