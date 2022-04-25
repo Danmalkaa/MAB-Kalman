@@ -17,7 +17,7 @@ def _add_experiment_parser(parser):
                           help="experiment to run")
     o_parser.add_argument('--n_runs', type=int, default=100,
                           help="number of runs")
-    o_parser.add_argument('--n_steps', type=int, default=2000,
+    o_parser.add_argument('--n_steps', type=int, default=3000,
                           help="number of steps")
     o_parser.add_argument('--regrets', type=bool, default=True,
                           help="plot regret against the number of rounds")
@@ -31,3 +31,5 @@ def _add_experiment_parser(parser):
                           type=float, help="Reward Noise Variance")
     o_parser.add_argument('--kalman_obs_noise', default="-1.0",
                           type=float, help="Kalman known or estimated Reward Noise Variance")
+    o_parser.add_argument('--kalman_unknown_str', type=str, default="kalman_known",
+                          help="type of bandit")
