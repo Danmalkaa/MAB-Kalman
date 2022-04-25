@@ -22,13 +22,16 @@ def plot_from_data(filename):
         plot(experiment)
 
 
-def plot_regrets(Ts_arr, final_regrets, labels):
-    plt.figure()
+def plot_regrets(Ts_arr, final_regrets, labels, save_dir_path=None):
+    fig = plt.figure()
     for Ts, final_regrets_item, label in zip(Ts_arr, final_regrets, labels):
         plt.loglog(Ts, final_regrets_item, label=label)
     plt.legend()
     plt.xlabel(r"Number of total time steps $T$")
     plt.ylabel(r"$Regret(T)$")
+    if save_dir_path:
+        fig.savefig(os.path.join(save_dir_path,'Regret(t).png'))
+    plt.show(block=False)
 
 
 def plot(experiment, save_dir_path=None):
@@ -41,7 +44,7 @@ def plot(experiment, save_dir_path=None):
     if final_regrets is not None:
         Ts = np.linspace(0, n_steps, final_regrets.shape[1]).astype(int)
         Ts_arr = [Ts for _ in range(len(labels))]
-        plot_regrets(Ts_arr, final_regrets, labels)
+        plot_regrets(Ts_arr, final_regrets, labels, save_dir_path)
 
     fig = plt.figure()
     for cum_rewards_mean_item, label in zip(cum_rewards_mean, labels):
@@ -66,7 +69,7 @@ def plot(experiment, save_dir_path=None):
         if save_dir_path:
             fig.savefig(os.path.join(save_dir_path, f'{label}.png'))
 
-    plt.show()
+    plt.show(block=False)
 
 
 # Taken from
@@ -183,14 +186,15 @@ def plot_socket(socket, ymax=0, title=None):
     axes.set_ylim([0, ymax])
 
 
-def plot_arms(agent, true_vals=None):
-    plt.figure()
+def plot_arms(agent, true_vals=None, save_dir_path = None, args=None):
     if agent.agent_type == 'Thompson':
         mean, var, alpha, beta, n = agent.actions_dist_estimate.T
     elif agent.agent_type == 'Kalman':
         mean, var = agent.actions_dist_estimate
     else:
         return
+    fig = plt.figure()
+    fig.set_size_inches(18.5, 10.5)
     # trials = sum(n)
     plt.title(f"{agent.agent_type}")
     x = np.linspace(np.min(mean)-5.0, np.max(mean)+5*np.sqrt(var[np.argmax(mean)]), 200)
@@ -220,3 +224,7 @@ def plot_arms(agent, true_vals=None):
 
     axes = plt.gca()
     axes.set_ylim([0, ymax])
+    if save_dir_path:
+        fig.savefig(os.path.join(save_dir_path,f'Arm_distribution_{agent.agent_type}_Obs_var_{args.obs_noise}.png'))
+
+    plt.show(block=False)
