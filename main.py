@@ -5,15 +5,22 @@ from bandit.independent import IndependentBandit
 from bandit.arm.normal import NormalArm, NormalNoiseArm
 from bandit.arm.bernoulli import BernoulliArm
 from bandit.arm.bernoulli_periodic import BernoulliPeriodicArm
+import multiprocessing
+import time
+import os
 
+# Means and Vars
+MEANS = [0.50 + 0.50*i for i in range(10)]
+VARS = [0.5 for i in range(10)]
 
-
-OBS_VAR = 3.0
-MEANS = [0.0, 0.1, 0.2, 0.3, 0.4]
-# MEANS = [5.5, 10.1, 15.2, 30.3, 40.4]
-VARS = [3.0, 2.4, 1.8, 1.2, 0.6]
-P_SUCCESSES = [0.4, 0.45, 0.5, 0.55, 0.6]
+obs_noise_vars = [(i/5.0)*0.50 for i in range(1,11)]
 parameters_tup = np.vstack((MEANS,VARS)).T
+
+
+delay = [i for i in range(1,11)]
+
+P_SUCCESSES = [0.4, 0.45, 0.5, 0.55, 0.6]
+# parameters_tup = np.vstack((MEANS,VARS)).T
 
 
 def get_normal_bandit(means, vars):
@@ -88,8 +95,41 @@ def main(args):
         print("Thompson")
         run_thompson_on_iid(bandit, args)
 
+def multi_proc_exp_1(obs): # Known Variance for Kalman
+    args = parse_command()
+    np.random.seed((os.getpid() * int(time.time())) % 123456789)
+    args.obs_noise = obs
+    args.kalman_obs_noise = obs
+    main(args)
+    print(f"Done Known Var Obs. Var = {obs}")
+
+def multi_proc_exp_2(obs): # Estimated Variance for Kalman
+    args = parse_command()
+    np.random.seed((os.getpid() * int(time.time())) % 123456789)
+    args.obs_noise = obs
+    args.kalman_unknown = "kalman_estimate"
+    main(args)
+    print(f"Done Unknown Obs. Var = {obs}")
+
+def multi_proc_exp_3(delay, obs=0.1): # Known Variance for Kalman With Delay
+    args = parse_command()
+    np.random.seed((os.getpid() * int(time.time())) % 123456789)
+    args.obs_noise = obs
+    args.kalman_obs_noise = obs
+    args.delay = delay
+    args.kalman_unknown = f"kalman_known_delay_{delay}" # add the name of exp to the file and folder
+    main(args)
+    print(f"Done Known Var Obs. Delay = {delay}")
 
 if __name__ == '__main__':
-    args = parse_command()
-    main(args)
-    print("Done")
+    with multiprocessing.Pool(8) as p:
+        # Known Obs Var for kalman
+        p.map(multi_proc_exp_1, obs_noise_vars)
+
+        # Unknown Obs Var for kalman
+        p.map(multi_proc_exp_2, obs_noise_vars)
+
+        # known Obs Var = 0.1 for kalman + changing Delay of Reward - delay ranges in [1,10] timesteps
+        p.map(multi_proc_exp_3, delay)
+
+
