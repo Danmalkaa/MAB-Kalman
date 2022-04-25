@@ -16,7 +16,7 @@ class Thompson(Agent):
         self.x = []  # list of all samples
 
         self.alpha = 1  # gamma shape parameter
-        self.beta = 50  # gamma rate parameter
+        self.beta = 25  # gamma rate parameter
 
         self.mu_0 = 1  # the prior (estimated) mean
         self.v_0 = self.beta / (self.alpha + 1)  # the prior (estimated) variance
@@ -35,6 +35,7 @@ class Thompson(Agent):
         self.actions_dist_estimate[2] += self.alpha  # init alpha to 1 for each action
         self.actions_dist_estimate[3] += self.beta  # init beta to 50 for each action
 
+        self.actions_dist_estimate = self.actions_dist_estimate.T
         self.samples = self.n_actions * [None] # [None], [None]...
 
         self.sum_reward = np.zeros(self.n_actions)
@@ -66,7 +67,7 @@ class Thompson(Agent):
         # print([np.random.normal(mean, var) for mean,var in self.actions_dist_estimate.T])
         sample_from_est_distribution = []
         o = self.actions_dist_estimate.copy()
-        for mean, var, alpha, beta, n in o.transpose():
+        for mean, var, alpha, beta, n in o:
             try:
                 precision = np.random.gamma(alpha, 1 / beta)
             except:
