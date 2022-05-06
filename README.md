@@ -75,8 +75,9 @@ Kalman Default Obs. Variance = 3.0
   --obs_noise -1.0 --kalman_obs_noise -1.0
 </code>
 
-# obs_noise/kalman_obs_noise = -1 --> uses default.
-*For more Information*
+ - obs_noise/kalman_obs_noise = -1 --> uses default.
+ - 
+*For more Information:*
 
 <code>
   python main.py -h
