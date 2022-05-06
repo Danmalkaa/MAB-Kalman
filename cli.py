@@ -13,7 +13,7 @@ def _add_experiment_parser(parser):
     o_parser = parser.add_argument_group(title='Experiment types')
     o_parser.add_argument('--plot', default="",
                           help="experiment data to plot")
-    o_parser.add_argument('--exp', type=int, default=7,
+    o_parser.add_argument('--exp', type=int, default=8,
                           help="experiment to run")
     o_parser.add_argument('--n_runs', type=int, default=100,
                           help="number of runs")
