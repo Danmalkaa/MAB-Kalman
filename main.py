@@ -84,16 +84,16 @@ def main(args):
         run_ucb2_on_iid(bandit, alphas, args)
 
     elif args.exp == 6:
-        print("All algorithms")
-        run_all_on_iid(bandit, args, parameters_tup)
-
-    elif args.exp == 7:
         print("Kalman")
         run_kalman_on_iid(bandit, args)
 
-    elif args.exp == 8:
+    elif args.exp == 7:
         print("Thompson")
         run_thompson_on_iid(bandit, args)
+
+    elif args.exp == 8:
+        print("All algorithms")
+        run_all_on_iid(bandit, args, parameters_tup)
 
 def multi_proc_exp_1(obs): # Known Variance for Kalman
     args = parse_command()
@@ -122,7 +122,7 @@ def multi_proc_exp_3(delay, obs=0.1): # Known Variance for Kalman With Delay
     print(f"Done Known Var Obs. Delay = {delay}")
 
 if __name__ == '__main__':
-    with multiprocessing.Pool(8) as p:
+    with multiprocessing.Pool(None) as p: # None returns os.cpu_count()
         # Known Obs Var for kalman
         p.map(multi_proc_exp_1, obs_noise_vars)
 
