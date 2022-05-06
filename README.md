@@ -39,6 +39,7 @@ Experiment numbers are as follows:
   6. Kalman
   7. Thompson Sampling
   8. Running our Experiment - Kalman, Thompson, UCB1, Succesive-elimination
+  9. Run All algorithms
 
 
 Types of bandits are:
@@ -70,7 +71,7 @@ Kalman Default Obs. Variance = 3.0
 <img src="https://render.githubusercontent.com/render/math?math=$\sigma^2_{obs} = 3.0$"> 
 
 <code>
-  --exp 7 --bandit normal_noise --n_runs 100 --n_steps 3000 --regrets True --n_regret_eval 10 --delay 0
+  --exp 8 --bandit normal_noise --n_runs 100 --n_steps 3000 --regrets True --n_regret_eval 10 --delay 0
   
   --obs_noise -1.0 --kalman_obs_noise -1.0
 </code>
