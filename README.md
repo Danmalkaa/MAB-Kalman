@@ -12,8 +12,10 @@ Innovation -
 - Implelments the stationary KF-MANB method offered in [2]
 - Adding a time-independent Reward Delay.
 
-
 Furthermore - adds "Noisy" Reward arms environment.
+
+- *Uses Multi-processing as default.*
+
 
 Authors - 
 Dan Malka;
