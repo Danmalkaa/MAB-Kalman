@@ -12,7 +12,6 @@ class Thompson(Agent):
         self.chosen_action = None
         self.agent_type = 'Thompson'
 
-        # self.n = 0  # the number of times this socket has been tried
         self.x = []  # list of all samples
 
         self.alpha = 1  # gamma shape parameter
@@ -25,7 +24,6 @@ class Thompson(Agent):
         self.init_flag = False
         self.init()
 
-        # print(self.actions_dist_estimate)
 
     def init(self):
         # parameters estimation array -  row for each each action
@@ -64,7 +62,6 @@ class Thompson(Agent):
 
 
     def _step(self, t):
-        # print([np.random.normal(mean, var) for mean,var in self.actions_dist_estimate.T])
         sample_from_est_distribution = []
         o = self.actions_dist_estimate.copy()
         for mean, var, alpha, beta, n in o:

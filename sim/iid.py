@@ -107,26 +107,28 @@ def run_thompson_on_iid(bandit, args):
     agents = [Thompson(bandit.n_actions)]
     envs = get_envs(bandit, agents, args)
     experiment = Experiment(envs, bandit, "thompson", args)
-    # plot(experiment)
+    plot(experiment)
     plot_arms(agents[0])
 
 
-# def run_all_on_iid(bandit, args):
-#     agents = [
-#         ExploreExploitOptimal(bandit.n_actions, args.n_steps),
-#         EpsilonGreedy(bandit.n_actions),
-#         SuccessiveElimination(bandit.n_actions, args.n_steps),
-#         UCB1(bandit.n_actions),
-#         UCB2(bandit.n_actions, 0.01),
-#         Kalman(bandit.n_actions, args.kalman_obs_noise),
-#         Thompson(bandit.n_actions)
-#     ]
-#     envs = get_envs(bandit, agents, args)
-#     experiment = Experiment(envs, bandit, "all", args)
-#     save_dir_path = experiment.save_dir_path if hasattr(experiment, "save_dir_path") else None
-#     plot(experiment, save_dir_path)
+def run_all_on_iid(bandit, args):
+    agents = [
+        Kalman(bandit.n_actions, args.kalman_obs_noise),
+        Thompson(bandit.n_actions),
+        ExploreExploitOptimal(bandit.n_actions, args.n_steps),
+        EpsilonGreedy(bandit.n_actions),
+        SuccessiveElimination(bandit.n_actions, args.n_steps),
+        UCB1(bandit.n_actions),
+        UCB2(bandit.n_actions, 0.01),
+        Kalman(bandit.n_actions, args.kalman_obs_noise),
+        Thompson(bandit.n_actions)
+    ]
+    envs = get_envs(bandit, agents, args)
+    experiment = Experiment(envs, bandit, "all", args)
+    save_dir_path = experiment.save_dir_path if hasattr(experiment, "save_dir_path") else None
+    plot(experiment, save_dir_path)
 
-def run_all_on_iid(bandit, args, true_parameters = None): # Our Experiment with the 4 Agents
+def run_our_exp(bandit, args, true_parameters = None): # Our Experiment with the 4 Agents
     agents = [
         Kalman(bandit.n_actions, args.kalman_obs_noise),
         Thompson(bandit.n_actions),

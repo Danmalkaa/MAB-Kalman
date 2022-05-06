@@ -16,7 +16,6 @@ class Kalman(Agent):
         self.init_flag = False
         self.init()
 
-        # print(self.actions_dist_estimate)
 
     def init(self):
         mean_vars_arrays = [np.zeros(self.n_actions, dtype=np.float64) for _ in range(2)]
@@ -34,7 +33,6 @@ class Kalman(Agent):
         
 
     def _step(self, t):
-        # print([np.random.normal(mean, var) for mean,var in self.actions_dist_estimate.T])
         sample_from_est_distribution = [np.random.normal(mean, np.sqrt(var)) for mean,var in self.actions_dist_estimate.T]
         action = np.argmax(sample_from_est_distribution)
         self.chosen_action = action

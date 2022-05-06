@@ -20,7 +20,6 @@ parameters_tup = np.vstack((MEANS,VARS)).T
 delay = [i for i in range(1,11)]
 
 P_SUCCESSES = [0.4, 0.45, 0.5, 0.55, 0.6]
-# parameters_tup = np.vstack((MEANS,VARS)).T
 
 
 def get_normal_bandit(means, vars):
@@ -92,6 +91,10 @@ def main(args):
         run_thompson_on_iid(bandit, args)
 
     elif args.exp == 8:
+        print("Our Exp. algorithms")
+        run_all_on_iid(bandit, args, parameters_tup)
+
+    elif args.exp == 9:
         print("All algorithms")
         run_all_on_iid(bandit, args, parameters_tup)
 
